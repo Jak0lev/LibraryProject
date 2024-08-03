@@ -18,7 +18,7 @@ fstream bookDetails(basepath + "bookDetails.txt", ios::app);
 ifstream example(basepath + "example.txt");
 fstream required(basepath + "req.txt", ios::app);
 // string help = "===== List of commands =====\nShow all the books in a list - E\nShow details about a book - F [name of the book]\nAdd book to archive - W [name of the book]\nRead a book's contents - S [name of the book]\nDelete a book - Q [name of the book]\nHelp - H";
-string help = "\n===== List of commands =====\nList of all the books - G\nShow details about a book - F [name of the book]\nAdd book to archive - W [name of the book]\nHelp - H\n=====\n";
+string help = "\n===== List of commands =====\nList of all the books - G\nShow details about a book - F [name of the book]\nAdd book to archive - W\nHelp - H\n=====\n";
 class crazy {
 private:
 	string title{};
