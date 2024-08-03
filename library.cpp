@@ -13,7 +13,7 @@ namespace fs = std::filesystem;
 void callReader(string j);
 bool isRunning = true;
 
-string basepath{ "C:/Users/jkb4w/source/repos/libraryProject/BOOKS/" };
+string basepath{ "../libraryProject/BOOKS/" };
 fstream bookDetails(basepath + "bookDetails.txt", ios::app);
 ifstream example(basepath + "example.txt");
 fstream required(basepath + "req.txt", ios::app);
