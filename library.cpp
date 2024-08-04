@@ -13,12 +13,12 @@ namespace fs = std::filesystem;
 void callReader(string j);
 bool isRunning = true;
 
-string basepath{ "../libraryProject/BOOKS/" };
+string basepath{ "C:/Users/jkb4w/source/repos/libraryProject/BOOKS/" };
 fstream bookDetails(basepath + "bookDetails.txt", ios::app);
 ifstream example(basepath + "example.txt");
 fstream required(basepath + "req.txt", ios::app);
 // string help = "===== List of commands =====\nShow all the books in a list - E\nShow details about a book - F [name of the book]\nAdd book to archive - W [name of the book]\nRead a book's contents - S [name of the book]\nDelete a book - Q [name of the book]\nHelp - H";
-string help = "\n===== List of commands =====\nList of all the books - G\nShow details about a book - F [name of the book]\nAdd book to archive - W\nHelp - H\n=====\n";
+string help = "\n===== List of commands =====\nList of all the books - G\nShow details about a book - F [name of the book]\nAdd book to archive - W\nClear console - C\n=====\n";
 class crazy {
 private:
 	string title{};
@@ -151,17 +151,20 @@ void callReader(string j) {
 			// loop through every text file name in file "BOOKS"
 			for (const auto& entry : fs::directory_iterator(basepath)) {
 				if (myBox[0] == entry.path().filename()) {
-					cout << "\nReached the entry.path(), entering the file\n\n";
-					myBox.clear();
+					cout << "\nReached the entry.path(), entering the file; " << myBox[0] << '\n';
 					char ch{};
-					while (example >> noskipws >> ch) {
+					ifstream textfile(myBox[0]);
+					while (textfile >> noskipws >> ch) {
 						cout << ch;
 					}
-					example.clear();
-					example.seekg(0, example.beg);
+
+					textfile.clear();
+					textfile.seekg(0, textfile.beg);
+					textfile.close();
 				}
 			}
-			
+			myBox.clear();
+			cout << "\n\nmyBox has been cleared()";
 		}
 		else {
 			cout << "Error, try again.\n";
