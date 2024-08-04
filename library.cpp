@@ -10,15 +10,16 @@
 using namespace std;
 namespace fs = std::filesystem;
 
-void callReader(string j);
+void callLooper(string j);
+void inspectBook(string myBox);
+void contentReader(string myBox);
 bool isRunning = true;
 
 string basepath{ "C:/../libraryProject/BOOKS/" };
-fstream bookDetails(basepath + "bookDetails.txt", ios::app);
-ifstream example(basepath + "example.txt");
-fstream required(basepath + "req.txt", ios::app);
+// ifstream example(basepath + "example.txt");
+// fstream required(basepath + "req.txt", ios::app);
 // string help = "===== List of commands =====\nShow all the books in a list - E\nShow details about a book - F [name of the book]\nAdd book to archive - W [name of the book]\nRead a book's contents - S [name of the book]\nDelete a book - Q [name of the book]\nHelp - H";
-string help = "\n===== List of commands =====\nList of all the books - G\nShow details about a book - F [name of the book]\nAdd book to archive - W\nClear console - C\n=====\n";
+string help = "\n===== List of commands =====\nQuit the library - Q\nList of all the books - G\nAdd book to archive - W\nShow details about a book - Z [name of the book]\nRead the contents of a book - F [name of the book]\nClear console - C\n=====\n";
 class crazy {
 private:
 	string title{};
@@ -52,20 +53,14 @@ public:
 		cout << "Finished! \n";
 		cout << "=====\n";
 	}
-	void inspectBook(string x) {
-		callReader(x);
-		/*if (x.begin(), x.end()) {
-		}*/
-		cout << "\n===== \n" << title << '\n';
-		cout << ISBN << '\n';
-		cout << author << '\n';
-		cout << publisher << '\n';
-		cout << date << '\n';
-		cout << language << '\n';
-		cout << subjMatter << '\n';
-		cout << status << "\n=====\n";
+	void readBook(string x) {
+		callLooper(x);
 	}
 	void writeDetails(string a, string b, string c, string d, string e, string f, string g, string h) {
+		string filenamer = a;
+		remove(filenamer.begin(), filenamer.end(), ' ');
+		// filenamer.erase(remove_if(filenamer.begin(), filenamer.end(), isspace), filenamer.end());
+		fstream bookDetails(basepath + filenamer + ".txt", ios::app);
 		bookDetails << "@\n";
 		bookDetails << '"' << title << '"' << '\n';
 		bookDetails << "ISBN: " << ISBN << '\n';
@@ -75,7 +70,9 @@ public:
 		bookDetails << "Language: " << language << '\n';
 		bookDetails << "Subject matter: " << subjMatter << '\n';
 		bookDetails << "Status: " << status << '\n';
+		bookDetails << "@\n";
 		bookDetails.seekg(0);
+		bookDetails.close();
 	}
 };
 
@@ -93,17 +90,17 @@ int main()
 			if (x == "w") {
 				book1.addBook();
 			}
-			/*else if (x == "z") {
-				book1.inspectBook(x);
-			}*/
+			else if (x[0] == 'z') {
+				book1.readBook(x);
+			}
 			else if (x == "h") {
 				cout << help;
 			}
 			else if (x == "q") {
 				cout << "\nLeaving library. Shutting down.\n";
-				bookDetails.close();
-				example.close();
-				required.close();
+				// bookDetails.close();
+				// example.close();
+				// required.close();
 				isRunning = false;
 			}
 			else if (x == "g") {
@@ -112,7 +109,7 @@ int main()
 				}
 			}
 			else if (x[0] == 'f') {
-				book1.inspectBook(x);
+				book1.readBook(x);
 			}
 			else if (x == "c") {
 				system("cls");
@@ -127,56 +124,91 @@ int main()
 			cout << "\nInvalid input, try again.\n";
 		}
 	}
-	required.close();
-	example.close();
-	bookDetails.close();
+	// required.close();
+	// example.close();
+	// bookDetails.close();
 	return 0;
 }
 
-void callReader(string j) {
+void callLooper(string j) {
 	try {
-		int num_whitespaces{};
-		for (char c : j) {
-			if (isspace(c, cin.getloc()))++num_whitespaces;
-			cout << c;
-		}
-		cout << "\nCMON..." << num_whitespaces << '\n';
-		size_t pos = j.find(' ') + 1;
-		j.erase(0, pos);
-		cout << "Debug callreader:\n" << j << '\n';
-		if (j[0] != 'f') {
+		if (j[0] == 'z') {
+			size_t pos = j.find(' ') + 1;
+			j.erase(0, pos);
+			// cout << "Debug callLooper:\n" << j << '\n';
 			vector<string> myBox = {};
 			myBox.push_back(j);
-			cout << myBox[0] << " it reached the box yey!";
+			// cout << myBox[0] << " it reached the box yey!";
 			// loop through every text file name in file "BOOKS"
 			for (const auto& entry : fs::directory_iterator(basepath)) {
 				if (myBox[0] == entry.path().filename()) {
-					cout << "\nReached the entry.path(), entering the file; " << myBox[0] << '\n';
-					char ch{};
-					ifstream textfile(myBox[0]);
-					while (textfile >> noskipws >> ch) {
-						cout << ch;
-					}
-
-					textfile.clear();
-					textfile.seekg(0, textfile.beg);
-					textfile.close();
+					inspectBook(myBox[0]);
+				}
+				else if (myBox[0] == "") {
+					cout << "Bad input.\n";
+				}
+			}
+		}
+		else if (j[0] == 'f') {
+			size_t pos = j.find(' ') + 1;
+			j.erase(0, pos);
+			vector<string> myBox = {};
+			myBox.push_back(j);
+			// loop through every text file name in file "BOOKS"
+			for (const auto& entry : fs::directory_iterator(basepath)) {
+				if (myBox[0] == entry.path().filename()) {
+					contentReader(myBox[0]);
+				}
+				else if (myBox[0] == "") {
+					cout << "Bad input.\n";
 				}
 			}
 			myBox.clear();
 			cout << "\n\nmyBox has been cleared()";
 		}
-		else {
-			cout << "Error, try again.\n";
-		}
 	}
 	catch (...){
-		bookDetails.close();
+		cout << "Error. Unexpected interruption." << '\n';
 		exit(0);
 	}
 }
 
-void addBookToArchive(string box1)
-{
-	int i = stoi(box1);
+void inspectBook(string myBox) {
+	int hits{0};
+	string subStr{};
+	char ch{};
+	fstream textfile(basepath + myBox);		// hihihi-haw
+	cout << '\n';
+	while (textfile >> noskipws >> ch && hits != 2) {
+		if (ch == '@') {
+			textfile.ignore();
+			hits += 1;
+		}
+		else {
+			cout << ch;
+		}
+	}
+	textfile.clear();
+	textfile.seekg(0, textfile.beg);
+	textfile.close();
+}
+
+void contentReader(string myBox) {
+	int hits{ 0 };
+	cout << "\nReached the entry.path(), entering the file; " << myBox << '\n';
+	char ch{};
+	fstream textfile(basepath + myBox);		// it works! Yeeey!
+	while (textfile >> noskipws >> ch) {
+		if (ch == '@') {
+			hits += 1;
+		}
+		if (hits == 2) {
+			if (ch != '@') {
+				cout << ch;
+			}
+		}
+	}
+	textfile.clear();
+	textfile.seekg(0, textfile.beg);
+	textfile.close();
 }
