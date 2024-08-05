@@ -15,7 +15,7 @@ void inspectBook(string myBox);
 void contentReader(string myBox);
 bool isRunning = true;
 
-string basepath{ "C:/../libraryProject/BOOKS/" };
+string basepath{ "C:/../repos/libraryProject/BOOKS/" };
 // ifstream example(basepath + "example.txt");
 // fstream required(basepath + "req.txt", ios::app);
 // string help = "===== List of commands =====\nShow all the books in a list - E\nShow details about a book - F [name of the book]\nAdd book to archive - W [name of the book]\nRead a book's contents - S [name of the book]\nDelete a book - Q [name of the book]\nHelp - H";
