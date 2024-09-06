@@ -18,7 +18,6 @@ bool isRunning = true;
 string basepath{ "C:/../repos/libraryProject/BOOKS/" };
 // ifstream example(basepath + "example.txt");
 // fstream required(basepath + "req.txt", ios::app);
-// string help = "===== List of commands =====\nShow all the books in a list - E\nShow details about a book - F [name of the book]\nAdd book to archive - W [name of the book]\nRead a book's contents - S [name of the book]\nDelete a book - Q [name of the book]\nHelp - H";
 string help = "\n===== List of commands =====\nQuit the library - Q\nList of all the books - G\nAdd book to archive - W\nShow details about a book - Z [name of the book]\nRead the contents of a book - F [name of the book]\nClear console - C\n=====\n";
 class crazy {
 private:
@@ -140,7 +139,7 @@ void callLooper(string j) {
 			myBox.push_back(j);
 			// cout << myBox[0] << " it reached the box yey!";
 			// loop through every text file name in file "BOOKS"
-			for (const auto& entry : fs::directory_iterator(basepath)) {
+			for (const auto &entry : fs::directory_iterator(basepath)) {
 				if (myBox[0] == entry.path().filename()) {
 					inspectBook(myBox[0]);
 				}
@@ -155,7 +154,7 @@ void callLooper(string j) {
 			vector<string> myBox = {};
 			myBox.push_back(j);
 			// loop through every text file name in file "BOOKS"
-			for (const auto& entry : fs::directory_iterator(basepath)) {
+			for (const auto &entry : fs::directory_iterator(basepath)) {
 				if (myBox[0] == entry.path().filename()) {
 					contentReader(myBox[0]);
 				}
