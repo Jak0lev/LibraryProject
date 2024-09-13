@@ -4,8 +4,10 @@
 #include <filesystem>
 #include <vector>
 
-// Reminder to kohu: pls comment what everything does
-// make it possible that books can have modifiable statuses, for example: "reserved", "borrowed" and "available"
+/*
+Reminder to kohu: pls comment what everything does
+make it possible that books can have modifiable statuses, for example: "reserved", "borrowed" and "available"
+*/
 
 using namespace std;
 namespace fs = std::filesystem;
@@ -16,8 +18,6 @@ void contentReader(string myBox);
 bool isRunning = true;
 
 string basepath{ "C:/../repos/libraryProject/BOOKS/" };
-// ifstream example(basepath + "example.txt");
-// fstream required(basepath + "req.txt", ios::app);
 string help = "\n===== List of commands =====\nQuit the library - Q\nList of all the books - G\nAdd book to archive - W\nShow details about a book - Z [name of the book]\nRead the contents of a book - F [name of the book]\nClear console - C\n=====\n";
 class crazy {
 private:
@@ -58,7 +58,6 @@ public:
 	void writeDetails(string a, string b, string c, string d, string e, string f, string g, string h) {
 		string filenamer = a;
 		remove(filenamer.begin(), filenamer.end(), ' ');
-		// filenamer.erase(remove_if(filenamer.begin(), filenamer.end(), isspace), filenamer.end());
 		fstream bookDetails(basepath + filenamer + ".txt", ios::app);
 		bookDetails << "@\n";
 		bookDetails << '"' << title << '"' << '\n';
@@ -80,7 +79,7 @@ int main()
 	crazy book1;
 
 	while (isRunning) {
-		try { 
+		try {
 			cout << "\nLibrary home screen\ntype 'h' for help\n";
 			string x{};
 			std::getline(std::cin >> std::ws, x);
@@ -97,9 +96,6 @@ int main()
 			}
 			else if (x == "q") {
 				cout << "\nLeaving library. Shutting down.\n";
-				// bookDetails.close();
-				// example.close();
-				// required.close();
 				isRunning = false;
 			}
 			else if (x == "g") {
@@ -123,9 +119,6 @@ int main()
 			cout << "\nInvalid input, try again.\n";
 		}
 	}
-	// required.close();
-	// example.close();
-	// bookDetails.close();
 	return 0;
 }
 
