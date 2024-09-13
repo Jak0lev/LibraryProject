@@ -1,8 +1,8 @@
 #include <iostream>
-#include <string>
-#include <fstream>
-#include <filesystem>
-#include <vector>
+#include <string>	
+#include <fstream>	// for creating, reading and writing files
+#include <filesystem>	// for finding file directories
+#include <vector>	// for storing two or more strings with a whitespace between them
 
 /*
 Reminder to kohu: pls comment what everything does
@@ -19,6 +19,8 @@ bool isRunning = true;
 
 string basepath{ "C:/../repos/libraryProject/BOOKS/" };
 string help = "\n===== List of commands =====\nQuit the library - Q\nList of all the books - G\nAdd book to archive - W\nShow details about a book - Z [name of the book]\nRead the contents of a book - F [name of the book]\nClear console - C\n=====\n";
+
+// creating a class through which the program writes / reads stuff to files
 class crazy {
 private:
 	string title{};
