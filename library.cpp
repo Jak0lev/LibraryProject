@@ -9,6 +9,8 @@ Reminder to kohu: pls comment what everything does
 make it possible that books can have modifiable statuses, for example: "reserved", "borrowed" and "available"
 */
 
+
+// Setup
 using namespace std;
 namespace fs = std::filesystem;
 
@@ -76,6 +78,8 @@ public:
 	}
 };
 
+
+
 int main()
 {
 	crazy book1;
@@ -124,6 +128,8 @@ int main()
 	return 0;
 }
 
+
+// Functions that read, write and do stuff with files
 void callLooper(string j) {
 	try {
 		if (j[0] == 'z') {
@@ -132,7 +138,6 @@ void callLooper(string j) {
 			// cout << "Debug callLooper:\n" << j << '\n';
 			vector<string> myBox = {};
 			myBox.push_back(j);
-			// cout << myBox[0] << " it reached the box yey!";
 			// loop through every text file name in file "BOOKS"
 			for (const auto &entry : fs::directory_iterator(basepath)) {
 				if (myBox[0] == entry.path().filename()) {
@@ -169,9 +174,8 @@ void callLooper(string j) {
 
 void inspectBook(string myBox) {
 	int hits{0};
-	string subStr{};
 	char ch{};
-	fstream textfile(basepath + myBox);		// hihihi-haw
+	fstream textfile(basepath + myBox);	
 	cout << '\n';
 	while (textfile >> noskipws >> ch && hits != 2) {
 		if (ch == '@') {
@@ -189,9 +193,8 @@ void inspectBook(string myBox) {
 
 void contentReader(string myBox) {
 	int hits{ 0 };
-	cout << "\nReached the entry.path(), entering the file; " << myBox << '\n';
 	char ch{};
-	fstream textfile(basepath + myBox);		// it works! Yeeey!
+	fstream textfile(basepath + myBox);	
 	while (textfile >> noskipws >> ch) {
 		if (ch == '@') {
 			hits += 1;
